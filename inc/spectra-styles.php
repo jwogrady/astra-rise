@@ -109,7 +109,8 @@ add_action( 'enqueue_block_assets', 'astra_rise_register_spectra_block_styles' )
  */
 function astra_rise_add_spectra_inline_styles() {
 	// Only proceed on frontend and block editor.
-	if ( is_admin() && ! is_block_editor() ) {
+	// Skip Customizer context where is_block_editor() may not be available.
+	if ( is_admin() && ! ( function_exists( 'is_block_editor' ) && is_block_editor() ) ) {
 		return;
 	}
 
