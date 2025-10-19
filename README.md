@@ -2,7 +2,7 @@
 
 A modern, modular Astra child theme optimized for Spectra Blocks and local business websites.
 
-> **WordPress 6.2+** | **PHP 7.4+** | **Astra Parent Theme Required** | **Spectra Optional**
+> **WordPress 6.2+** | **PHP 8.0+** | **Astra Parent Theme Required** | **Spectra Optional**
 
 ---
 

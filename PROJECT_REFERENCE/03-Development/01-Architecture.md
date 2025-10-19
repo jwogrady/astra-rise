@@ -268,7 +268,7 @@ functions.php runs
     ↓
 Defines constants (ASTRA_RISE_VERSION, etc)
     ↓
-Checks requirements (WordPress 6.2+, PHP 7.4+)
+Checks requirements (WordPress 6.2+, PHP 8.0+)
     ↓
 Loads all inc/*.php modules in order
     ↓

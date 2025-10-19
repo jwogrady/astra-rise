@@ -372,7 +372,7 @@ Your Astra Rise theme is now:
 - ✅ **100% documented** (1,100+ lines of docs)
 - ✅ **Modular** (10 independent components)
 - ✅ **Spectra-optimized** (5 custom block styles)
-- ✅ **WordPress-compliant** (6.2+, PHP 7.4+)
+- ✅ **WordPress-compliant** (6.2+, PHP 8.0+)
 - ✅ **Production-ready** (immediately deployable)
 
 **Status: READY FOR PRODUCTION** 🚀

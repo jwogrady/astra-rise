@@ -4,7 +4,7 @@ Tags: astra, astra-child, spectra, local-business, blocks, gutenberg
 Requires at least: 6.8
 Tested up to: 6.8.3
 Requires PHP: 8.0
-Stable Tag: 1.1.6
+Stable Tag: 1.1.7
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ fast, accessible, and maintainable websites, with deep Spectra Blocks integratio
 
 **Requirements:**
 - WordPress 6.2 or later
-- PHP 7.4 or later
+- PHP 8.0 or later
 - Astra theme (parent theme)
 - Spectra Blocks (optional, but recommended)
 

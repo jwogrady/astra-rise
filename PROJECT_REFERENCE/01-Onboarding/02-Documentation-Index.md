@@ -106,7 +106,7 @@ bun run lint:fix
 
 ### WordPress Requirements
 - WordPress 6.2+
-- PHP 7.4+
+- PHP 8.0+
 - Astra Parent Theme
 - Spectra Plugin (optional, recommended)
 
