@@ -97,13 +97,18 @@ add_filter( 'wp_get_attachment_image_attributes', 'astra_rise_optimize_attachmen
  * LiteSpeed Cache Headers Optimization
  *
  * Configures cache headers for LiteSpeed to optimize caching behavior.
- * Only runs if LiteSpeed Cache plugin is active.
+ * Only runs if LiteSpeed Cache plugin is active and not in admin.
  *
  * @return void
  *
  * @since 1.1.0
  */
 function astra_rise_litespeed_cache_headers(): void {
+	// Skip on admin pages completely to avoid WordPress core issues
+	if ( is_admin() ) {
+		return;
+	}
+
 	if ( ! defined( 'LSCACHE_VERSION' ) ) {
 		return;
 	}
@@ -118,11 +123,6 @@ function astra_rise_litespeed_cache_headers(): void {
 	} elseif ( is_archive() || is_search() ) {
 		// Cache archive pages for 3 days
 		header( 'X-LiteSpeed-Cache-Control: public,max-age=259200' );
-	}
-
-	// Purge cache on post updates
-	if ( defined( 'LSWCP_PLUGIN_VERSION' ) ) {
-		do_action( 'litespeed_cache_api_purge_all' );
 	}
 }
 add_action( 'wp_head', 'astra_rise_litespeed_cache_headers' );
@@ -150,12 +150,18 @@ add_action( 'wp_enqueue_scripts', 'astra_rise_optimize_block_rendering', 1 );
  * Add Performance Hints in wp_head
  *
  * Implements WordPress 6.8.3+ performance APIs for better LCP and CLS.
+ * Only runs on frontend.
  *
  * @return void
  *
  * @since 1.1.0
  */
 function astra_rise_add_performance_hints(): void {
+	// Skip on admin pages
+	if ( is_admin() ) {
+		return;
+	}
+
 	// For LiteSpeed servers, indicate that we support HTTP/2 Server Push
 	if ( defined( 'LSCACHE_VERSION' ) ) {
 		echo "\n<!-- LiteSpeed Cache Enabled: v" . esc_attr( LSCACHE_VERSION ) . " -->\n";
@@ -170,12 +176,18 @@ add_action( 'wp_head', 'astra_rise_add_performance_hints', 5 );
  * Remove Unnecessary Meta Tags
  *
  * Reduces HTML bloat and improves LCP by removing unused meta tags.
+ * Only removes on frontend to avoid WordPress core issues.
  *
  * @return void
  *
  * @since 1.1.0
  */
 function astra_rise_remove_unnecessary_meta(): void {
+	// Skip on admin pages
+	if ( is_admin() ) {
+		return;
+	}
+
 	// Remove emoji script to save request (not needed for Rise Local theme)
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -198,10 +210,20 @@ add_action( 'init', 'astra_rise_remove_unnecessary_meta' );
 function astra_rise_optimize_queries(): void {
 	// Cache expensive queries during page load
 	// This improves performance on pages with multiple queries
-	if ( ! is_admin() ) {
-		// Reduce database hits for nav menus
-		wp_cache_set_transient_default_filter( 'nav_menu_item_' );
+	
+	// Skip on admin pages to avoid issues with WordPress core
+	if ( is_admin() ) {
+		return;
 	}
+
+	// Cache nav menu queries to reduce database hits
+	// Navigation menus are typically requested multiple times per page
+	add_filter(
+		'wp_cache_themes_persistently',
+		static function( bool $cache ): bool {
+			return true;
+		}
+	);
 }
 add_action( 'wp_loaded', 'astra_rise_optimize_queries' );
 
