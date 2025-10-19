@@ -108,9 +108,9 @@ add_action( 'enqueue_block_assets', 'astra_rise_register_spectra_block_styles' )
  * @since 1.0.0
  */
 function astra_rise_add_spectra_inline_styles() {
-	// Only proceed on frontend and block editor.
-	// Skip Customizer context where is_block_editor() may not be available.
-	if ( is_admin() && ! ( function_exists( 'is_block_editor' ) && is_block_editor() ) ) {
+	// This only runs on frontend via wp_enqueue_scripts
+	// Additional safety check to ensure handle is enqueued
+	if ( ! wp_style_is( 'astra-rise-brand', 'enqueued' ) ) {
 		return;
 	}
 
@@ -198,10 +198,13 @@ function astra_rise_add_spectra_inline_styles() {
 	$all_spectra_styles = trim( $all_spectra_styles );
 
 	// Add inline styles to the brand CSS handle
-	wp_add_inline_style( 'astra-rise-brand', $all_spectra_styles );
+	// Only add if the handle is currently enqueued
+	if ( wp_style_is( 'astra-rise-brand', 'enqueued' ) ) {
+		wp_add_inline_style( 'astra-rise-brand', $all_spectra_styles );
+	}
 }
+// Only add to frontend, not admin pages
 add_action( 'wp_enqueue_scripts', 'astra_rise_add_spectra_inline_styles', 20 );
-add_action( 'enqueue_block_editor_assets', 'astra_rise_add_spectra_inline_styles', 20 );
 
 /**
  * Conditionally Enqueue Spectra-Specific CSS
