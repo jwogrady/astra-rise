@@ -10,8 +10,16 @@ on:
 permissions:
   contents: write
 
+# Prevent overlapping release jobs on the same ref
+concurrency:
+  group: release-${{ github.repository }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   release:
+    if: ${{ github.repository == 'jwogrady/astra-rise' }}
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,30 +38,63 @@ jobs:
       - name: Create theme zip
         id: zip
         run: |
+          set -euo pipefail
           VERSION=${{ steps.version.outputs.version }}
           ZIPNAME="astra-rise-${VERSION}.zip"
-          zip -r "$ZIPNAME" . \
-            -x ".git/*" ".github/*" "node_modules/*" "*.zip" ".vscode/*" ".DS_Store"
-          echo "zip=$ZIPNAME" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub release
-        id: create_release
-        uses: actions/create-release@v1
+          # Stage files under a single top-level directory: astra-rise/
+          WORKDIR="$PWD"
+          STAGE_DIR="$RUNNER_TEMP/astra-rise"
+          rm -rf "$STAGE_DIR"
+          mkdir -p "$STAGE_DIR"
+
+          rsync -a "$WORKDIR"/ "$STAGE_DIR"/ \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='*.zip' \
+            --exclude='.vscode/' \
+            --exclude='.DS_Store'
+
+          # Create the zip so it contains astra-rise/ as the root folder
+          (cd "$RUNNER_TEMP" && zip -r "$ZIPNAME" "astra-rise")
+
+          mv "$RUNNER_TEMP/$ZIPNAME" "$WORKDIR/$ZIPNAME"
+          echo "zip=$WORKDIR/$ZIPNAME" >> $GITHUB_OUTPUT
+
+      # Compute release metadata once for consistent usage
+      - name: Compute release metadata
+        id: meta
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IS_TAG_EVENT: ${{ startsWith(github.ref, 'refs/tags/') }}
+          PUSHED_TAG: ${{ github.ref_name }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if [ "$IS_TAG_EVENT" = "true" ]; then
+            TAG="$PUSHED_TAG"
+            VER="${PUSHED_TAG#v}"
+          else
+            TAG="v${VERSION}"
+            VER="$VERSION"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+
+      # Create or update a GitHub Release and upload assets in one step
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name || format('v%s', steps.version.outputs.version) }}
-          release_name: astra-rise-${{ steps.version.outputs.version }}
-          body: Release ${{ steps.version.outputs.version }}
+          # Use the computed tag and version for consistency
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: astra-rise-${{ steps.meta.outputs.version }}
+          body: Release ${{ steps.meta.outputs.version }}
           draft: false
           prerelease: false
-
-      - name: Upload ZIP to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.zip.outputs.zip }}
-          asset_name: ${{ steps.zip.outputs.zip }}
-          asset_content_type: application/zip
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          make_latest: true
+          fail_on_unmatched_files: true
+          files: |
+            ${{ steps.zip.outputs.zip }}

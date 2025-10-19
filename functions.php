@@ -16,7 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define Constants
  */
-define( 'CHILD_THEME_ASTRA_RISE_VERSION', '1.0.0' );
+// Resolve version dynamically from style.css to ensure updates overwrite properly
+$astra_rise_theme = wp_get_theme( get_stylesheet() );
+define( 'CHILD_THEME_ASTRA_RISE_VERSION', $astra_rise_theme->get( 'Version' ) ?: '1.0.0' );
 define( 'RISE_THEME_DIR', get_stylesheet_directory() );
 define( 'RISE_THEME_URI', get_stylesheet_directory_uri() );
 
