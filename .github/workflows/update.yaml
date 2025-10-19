@@ -1,0 +1,59 @@
+name: Build & Release Theme
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+# Ensure the workflow can create releases and upload assets
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from style.css
+        id: version
+        run: |
+          VERSION=$(grep -m1 '^Version:' style.css | sed -E 's/Version:[[:space:]]*//;s/[[:space:]]*$//')
+          if [ -z "$VERSION" ]; then
+            echo "No Version: found in style.css" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create theme zip
+        id: zip
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          ZIPNAME="astra-rise-${VERSION}.zip"
+          zip -r "$ZIPNAME" . \
+            -x ".git/*" ".github/*" "node_modules/*" "*.zip" ".vscode/*" ".DS_Store"
+          echo "zip=$ZIPNAME" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name || format('v%s', steps.version.outputs.version) }}
+          release_name: astra-rise-${{ steps.version.outputs.version }}
+          body: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload ZIP to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.zip.outputs.zip }}
+          asset_name: ${{ steps.zip.outputs.zip }}
+          asset_content_type: application/zip
