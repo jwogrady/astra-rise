@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+    'slug'        => 'astra-rise/hero-section',
     'title'       => __( 'Rise Local Hero Section', 'astra-rise' ),
     'description' => __( 'A hero section with Rise Local branding', 'astra-rise' ),
     'categories'  => array( 'rise-local', 'header' ),

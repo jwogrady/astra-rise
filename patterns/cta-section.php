@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+    'slug'        => 'astra-rise/cta-section',
     'title'       => __( 'Rise Local Call-to-Action', 'astra-rise' ),
     'description' => __( 'A compelling call-to-action section with Rise Local branding', 'astra-rise' ),
     'categories'  => array( 'rise-local', 'call-to-action' ),

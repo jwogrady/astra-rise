@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+    'slug'        => 'astra-rise/service-cards',
     'title'       => __( 'Rise Local Service Cards', 'astra-rise' ),
     'description' => __( 'Three-column service cards with Rise Local styling', 'astra-rise' ),
     'categories'  => array( 'rise-local', 'columns' ),

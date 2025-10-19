@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+    'slug'        => 'astra-rise/typography-showcase',
     'title'       => __( 'Rise Local Typography Showcase', 'astra-rise' ),
     'description' => __( 'A pattern showcasing the Rise Local typography system', 'astra-rise' ),
     'categories'  => array( 'rise-local', 'text' ),
