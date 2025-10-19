@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<ruleset name="Astra Rise Theme">
+	<description>WordPress Coding Standards for Astra Rise Theme</description>
+
+	<!-- Check all PHP files in the theme -->
+	<arg name="extensions" value="php"/>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/.git/*</exclude-pattern>
+
+	<!-- Show progress and use multiple threads for faster scanning -->
+	<arg value="sp"/>
+	<arg name="parallel" value="8"/>
+
+	<!-- Use WordPress standards -->
+	<rule ref="WordPress"/>
+
+	<!-- Exclude some rules that may conflict with theme design -->
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<!-- Allow files without class name prefix -->
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+	</rule>
+
+	<!-- Allow opening PHP tag on separate line for template files -->
+	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
+		<properties>
+			<property name="blank_line_check" value="false"/>
+		</properties>
+	</rule>
+
+	<!-- Custom prefixes for functions and constants -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" value="astra_rise"/>
+		</properties>
+	</rule>
+
+	<!-- Increase line length limit for URLs and code comments -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+			<property name="absoluteLineLimit" value="150"/>
+		</properties>
+	</rule>
+
+	<!-- Require short array syntax only -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+	<!-- WordPress security standards -->
+	<rule ref="WordPress.Security.EscapeOutput"/>
+	<rule ref="WordPress.Security.NonceVerification"/>
+	<rule ref="WordPress.Security.ValidatedSanitizedInput"/>
+
+	<!-- Text domain checks -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" value="astra-rise"/>
+		</properties>
+	</rule>
+
+	<!-- Debug output not allowed in production -->
+	<rule ref="WordPress.PHP.StrictInArrayComparison"/>
+	<rule ref="WordPress.PHP.NoSilencedErrors"/>
+
+	<!-- Commented-out code should be removed -->
+	<rule ref="Generic.Commenting.Commented">
+		<severity>5</severity>
+	</rule>
+
+	<!-- Indentation settings -->
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="indent" value="1"/>
+			<property name="tabIndent" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- Allow tabs for indentation -->
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+
+	<!-- PHP version -->
+	<config name="minimum_supported_wp_version" value="6.2"/>
+	<config name="testVersion" value="7.4-"/>
+
+</ruleset>

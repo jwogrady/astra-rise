@@ -2,10 +2,23 @@
 Theme Name: astra-rise
 Author: jwogrady
 Author URI: https://github.com/jwogrady
-Description: Rise Local Astra Child Theme
+Description: Rise Local Astra Child Theme - Modern, modular, Spectra-optimized
 Version: 1.0.0
+Stable Tag: 1.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: astra-rise
+Domain Path: /languages
 Template: astra
+Requires at least: 6.2
+Requires PHP: 7.4
+*/
+
+/*
+This file is intentionally minimal. All styling is handled via:
+- theme.json (block editor, colors, typography, spacing)
+- /assets/css/brand.css (custom brand variables and component styles)
+- /assets/css/spectra.css (Spectra block customizations)
+
+See functions.php and /inc/enqueue-scripts.php for asset loading logic.
 */

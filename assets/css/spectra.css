@@ -1,0 +1,141 @@
+/**
+ * Spectra Block Customizations
+ * 
+ * This file extends Spectra block styles with Rise Local brand aesthetic.
+ * Styles are organized by block type for easy maintenance and extension.
+ * 
+ * NOTE: Most styles are injected dynamically in inc/spectra-styles.php
+ * This file provides additional CSS-only enhancements and fallback styles.
+ * 
+ * @package astra-rise
+ * @since 1.0.0
+ */
+
+/* ====================================================================
+   Spectra Button Block Styles
+   ==================================================================== */
+
+/* Rise Gradient Button */
+.is-style-rise-gradient .wp-block-uagb-button__link {
+	background: var(--wp--preset--gradient--rise-accent, linear-gradient(135deg, #3b82f6 0%, #ffb457 100%));
+	color: var(--wp--preset--color--rise-white, #fff);
+	border: none;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.is-style-rise-gradient .wp-block-uagb-button__link:hover,
+.is-style-rise-gradient .wp-block-uagb-button__link:focus {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+.is-style-rise-gradient .wp-block-uagb-button__link:active {
+	transform: translateY(0);
+}
+
+/* Rise Outline Button */
+.is-style-rise-outline .wp-block-uagb-button__link,
+.is-style-rise-outline .wp-block-button__link {
+	background: transparent;
+	border: 2px solid var(--wp--preset--color--rise-blue, #3b82f6);
+	color: var(--wp--preset--color--rise-blue, #3b82f6);
+	transition: all 0.2s ease;
+}
+
+.is-style-rise-outline .wp-block-uagb-button__link:hover,
+.is-style-rise-outline .wp-block-button__link:hover,
+.is-style-rise-outline .wp-block-uagb-button__link:focus,
+.is-style-rise-outline .wp-block-button__link:focus {
+	background: var(--wp--preset--color--rise-blue, #3b82f6);
+	color: var(--wp--preset--color--rise-white, #fff);
+}
+
+/* ====================================================================
+   Spectra Container Block Styles
+   ==================================================================== */
+
+/* Rise Elevated Card */
+.is-style-rise-elevated-card.wp-block-uagb-container {
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	padding: var(--rise-space-lg, 2rem);
+	border-radius: var(--rise-border-radius, 8px);
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	background: var(--wp--preset--color--rise-white, #fff);
+}
+
+.is-style-rise-elevated-card.wp-block-uagb-container:hover {
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+	transform: translateY(-4px);
+}
+
+/* ====================================================================
+   Spectra Heading Block Styles
+   ==================================================================== */
+
+/* Rise Accent Underline */
+.is-style-rise-accent-underline.wp-block-uagb-heading {
+	position: relative;
+	padding-bottom: var(--rise-space-md, 1.5rem);
+}
+
+.is-style-rise-accent-underline.wp-block-uagb-heading::after {
+	content: "";
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 60px;
+	height: 4px;
+	background: var(--wp--preset--gradient--rise-accent, linear-gradient(135deg, #3b82f6 0%, #ffb457 100%));
+	border-radius: 2px;
+}
+
+/* ====================================================================
+   Spectra Separator Block Styles
+   ==================================================================== */
+
+/* Rise Gradient Line */
+.is-style-rise-gradient-line.wp-block-uagb-separator,
+.is-style-rise-gradient-line.wp-block-separator {
+	background: var(--wp--preset--gradient--rise-accent, linear-gradient(135deg, #3b82f6 0%, #ffb457 100%));
+	opacity: 1;
+	height: 3px;
+	margin: var(--rise-space-lg, 2rem) 0;
+	border: none;
+}
+
+/* ====================================================================
+   Spectra Icon Block Enhancements
+   ==================================================================== */
+
+.wp-block-uagb-icon svg {
+	transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.wp-block-uagb-icon:hover svg {
+	transform: scale(1.05);
+}
+
+/* ====================================================================
+   Spectra Progress Bar Enhancements
+   ==================================================================== */
+
+.wp-block-uagb-progress-bar .uagb-pb-progress {
+	background: var(--wp--preset--gradient--rise-blue-gradient, linear-gradient(135deg, #3b82f6 0%, #1e40af 100%));
+	border-radius: 10px;
+}
+
+/* ====================================================================
+   Responsive Adjustments
+   ==================================================================== */
+
+@media (max-width: 768px) {
+	.is-style-rise-elevated-card.wp-block-uagb-container {
+		padding: var(--rise-space-md, 1.5rem);
+	}
+
+	.is-style-rise-accent-underline.wp-block-uagb-heading::after {
+		width: 40px;
+		height: 3px;
+	}
+}

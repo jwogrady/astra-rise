@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "custom": true,
+      "customGradient": true,
+      "palette": [
+        { "slug": "rise-black", "name": "Rise Black", "color": "#000000" },
+        { "slug": "rise-white", "name": "Rise White", "color": "#FFFFFF" },
+        { "slug": "rise-gray", "name": "Rise Gray", "color": "#6B7280" },
+        { "slug": "rise-blue", "name": "Rise Blue", "color": "#3B82F6" },
+        { "slug": "rise-blue-dark", "name": "Rise Blue Dark", "color": "#1E40AF" },
+        { "slug": "rise-blue-light", "name": "Rise Blue Light", "color": "#93C5FD" },
+        { "slug": "rise-background", "name": "Rise Background", "color": "#F8FAFC" },
+        { "slug": "rise-orange-accent", "name": "Rise Orange Accent", "color": "#FFB457" }
+      ],
+      "gradients": [
+        {
+          "name": "Rise Blue Gradient",
+          "slug": "rise-blue-gradient",
+          "gradient": "linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)"
+        },
+        {
+          "name": "Rise Professional",
+          "slug": "rise-professional",
+          "gradient": "linear-gradient(135deg, #000000 0%, #6B7280 100%)"
+        },
+        {
+          "name": "Rise Accent",
+          "slug": "rise-accent",
+          "gradient": "linear-gradient(135deg, #3B82F6 0%, #FFB457 100%)"
+        }
+      ]
+    },
+    "typography": {
+      "fluid": true,
+      "dropCap": false,
+      "fontFamilies": [
+        {
+          "slug": "montserrat",
+          "name": "Montserrat",
+          "fontFamily": "Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        {
+          "slug": "inter",
+          "name": "Inter",
+          "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+        },
+        {
+          "slug": "permanent-marker",
+          "name": "Permanent Marker",
+          "fontFamily": "'Permanent Marker', cursive, sans-serif"
+        }
+      ],
+      "fontSizes": [
+        { "slug": "body-xs", "size": "0.875rem", "name": "XS" },
+        { "slug": "body-sm", "size": "1rem", "name": "S" },
+        { "slug": "body-md", "size": "1.125rem", "name": "M" },
+        { "slug": "body-lg", "size": "1.5rem", "name": "L" },
+        { "slug": "display-sm", "size": "3.125rem", "name": "Display SM" },
+        { "slug": "display-md", "size": "3.5rem", "name": "Display MD" },
+        { "slug": "display-lg", "size": "4rem", "name": "Display LG" },
+        { "slug": "display-xl", "size": "4.5rem", "name": "Display XL" }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--rise-background)",
+      "text": "var(--wp--preset--color--rise-black)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--inter)",
+      "lineHeight": "1.6"
+    },
+    "elements": {
+      "heading": {
+        "color": {
+          "text": "var(--wp--preset--color--rise-black)"
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--montserrat)",
+          "lineHeight": "1.1"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--rise-blue)"
+        }
+      },
+      "button": {
+        "color": {
+          "text": "var(--wp--preset--color--rise-white)",
+          "background": "var(--wp--preset--color--rise-blue)"
+        }
+      }
+    }
+  }
+}

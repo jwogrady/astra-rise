@@ -7,20 +7,20 @@
   /* Primary Brand Colors (Black, White, Gray) */
   --rise-black: #000000;
   --rise-white: #ffffff;
-  --rise-gray: #696a6d;
+  --rise-gray: #6b7280; /* modern neutral */
   
-  /* Secondary Brand Color (Light Blue) */
-  --rise-blue: #3d86d5;
+  /* Primary Brand Blue (brighter, modern) */
+  --rise-blue: #3b82f6; /* vibrant blue */
   
   /* Enhanced UI Colors */
-  --rise-blue-dark: #2c6bb4;
-  --rise-blue-light: #5ea0ea;
-  --rise-background: #f6f7f9;
-  --rise-orange-accent: #f2a74b;
+  --rise-blue-dark: #1e40af; /* deep blue */
+  --rise-blue-light: #93c5fd; /* light blue */
+  --rise-background: #f8fafc; /* softer background */
+  --rise-orange-accent: #ffb457; /* refreshed accent */
   
   /* Typography - Rise Local Brand Specification */
   --rise-font-headline: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --rise-font-body: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --rise-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* modern readable body */
   --rise-font-accent: "Permanent Marker", cursive, sans-serif;
   
   /* Typography Weights */
@@ -49,9 +49,9 @@
   --rise-leading-relaxed: 1.6;
   
   /* Brand Gradients */
-  --rise-gradient-blue: linear-gradient(135deg, #3d86d5 0%, #2c6bb4 100%);
-  --rise-gradient-professional: linear-gradient(135deg, #000000 0%, #696a6d 100%);
-  --rise-gradient-accent: linear-gradient(135deg, #3d86d5 0%, #f2a74b 100%);
+  --rise-gradient-blue: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  --rise-gradient-professional: linear-gradient(135deg, #000000 0%, #6b7280 100%);
+  --rise-gradient-accent: linear-gradient(135deg, #3b82f6 0%, #ffb457 100%);
   
   /* UI Elements */
   --rise-border-radius: 8px;
@@ -191,4 +191,129 @@ a:hover {
   h2 { font-size: var(--rise-text-headline-sm); }
   h3 { font-size: var(--rise-text-body-xl); }
   h4 { font-size: var(--rise-text-body-lg); }
+}
+
+/* Contrast safety: avoid black text on dark backgrounds */
+/* Treat black/brand-blue/gradient/cover backgrounds as dark and force light foregrounds */
+.has-rise-black-background-color,
+.has-rise-blue-background-color,
+.has-rise-blue-gradient-background,
+.has-rise-professional-gradient-background,
+.wp-block-cover.has-background,
+.rise-hero-section,
+[class*="has-background"][style*="#000"],
+[class*="has-background"][style*="rgb(0, 0, 0)"],
+[class*="has-background"][style*="#3b82f6"],
+[class*="has-background"][style*="rgb(59, 130, 246)"] {
+  color: var(--rise-white);
+}
+
+/* Headings and body text inside dark sections */
+.has-rise-black-background-color :is(h1,h2,h3,h4,h5,h6,p,li,span,div),
+.has-rise-blue-background-color :is(h1,h2,h3,h4,h5,h6,p,li,span,div),
+.has-rise-blue-gradient-background :is(h1,h2,h3,h4,h5,h6,p,li,span,div),
+.has-rise-professional-gradient-background :is(h1,h2,h3,h4,h5,h6,p,li,span,div),
+.wp-block-cover.has-background :is(h1,h2,h3,h4,h5,h6,p,li,span,div),
+.rise-hero-section :is(h1,h2,h3,h4,h5,h6,p,li,span,div) {
+  color: var(--rise-white);
+}
+
+/* Links inside dark sections */
+.has-rise-black-background-color a,
+.has-rise-blue-background-color a,
+.has-rise-blue-gradient-background a,
+.has-rise-professional-gradient-background a,
+.wp-block-cover.has-background a,
+.rise-hero-section a {
+  color: var(--rise-white);
+  text-decoration: underline;
+}
+
+.has-rise-black-background-color a:hover,
+.has-rise-blue-background-color a:hover,
+.has-rise-blue-gradient-background a:hover,
+.has-rise-professional-gradient-background a:hover,
+.wp-block-cover.has-background a:hover,
+.rise-hero-section a:hover {
+  color: #f0f4ff;
+}
+
+/* Buttons inside dark sections (when not given an explicit background) */
+.has-rise-black-background-color .wp-block-button__link:not(.has-background),
+.has-rise-blue-background-color .wp-block-button__link:not(.has-background),
+.has-rise-blue-gradient-background .wp-block-button__link:not(.has-background),
+.has-rise-professional-gradient-background .wp-block-button__link:not(.has-background),
+.wp-block-cover.has-background .wp-block-button__link:not(.has-background),
+.rise-hero-section .wp-block-button__link:not(.has-background) {
+  background: transparent;
+  border: 2px solid var(--rise-white);
+  color: var(--rise-white);
+}
+
+/* Utility: ensure captions and small text also flip to light */
+.has-rise-black-background-color :is(figcaption,small),
+.has-rise-blue-background-color :is(figcaption,small),
+.has-rise-blue-gradient-background :is(figcaption,small),
+.has-rise-professional-gradient-background :is(figcaption,small),
+.wp-block-cover.has-background :is(figcaption,small) {
+  color: #f7f9ff;
+}
+
+/* Navigation contrast: handle dark headers and transparent headers */
+/* Transparent header over dark hero */
+.ast-theme-transparent-header .ast-builder-menu .menu-link,
+.ast-theme-transparent-header .main-header-menu > .menu-item > a,
+.ast-theme-transparent-header .site-title a,
+.ast-theme-transparent-header .site-description,
+.ast-theme-transparent-header .menu-toggle,
+.ast-theme-transparent-header .ast-mobile-menu-trigger-minimal {
+  color: var(--rise-white);
+}
+.ast-theme-transparent-header .main-header-menu > .menu-item > a:hover,
+.ast-theme-transparent-header .ast-builder-menu .menu-link:hover {
+  color: #f0f4ff;
+}
+
+/* Header bar flagged as dark (set dynamically or by class) */
+.main-header-bar.is-dark .main-header-menu > .menu-item > a,
+.main-header-bar.is-dark .ast-builder-menu .menu-link,
+.main-header-bar.is-dark .site-title a,
+.main-header-bar.is-dark .site-description,
+.main-header-bar.is-dark .menu-toggle,
+.ast-primary-header-bar.is-dark .main-header-menu > .menu-item > a,
+.ast-primary-header-bar.is-dark .ast-builder-menu .menu-link,
+.ast-primary-header_bar.is-dark .site-title a,
+.ast-primary_header_bar.is-dark .site-description,
+.ast_primary_header_bar.is-dark .menu-toggle {
+  color: var(--rise-white);
+}
+.main-header-bar.is-dark .main-header-menu > .menu-item > a:hover,
+.main-header-bar.is-dark .ast-builder-menu .menu-link:hover,
+.ast-primary-header-bar.is-dark .main-header-menu > .menu-item > a:hover,
+.ast-primary-header-bar.is-dark .ast-builder-menu .menu-link:hover {
+  color: #f0f4ff;
+}
+
+/* Mobile menu toggle border/icon visibility on dark headers */
+.main-header-bar.is-dark .ast-mobile-menu-trigger-minimal,
+.ast-primary-header_bar.is-dark .ast-mobile-menu-trigger-minimal {
+  color: var(--rise-white);
+}
+
+/* Heuristic: if header inline style sets brand black/blue, treat as dark */
+.main-header-bar[style*="#000"],
+.main-header-bar[style*="rgb(0, 0, 0)"],
+.main-header-bar[style*="#3b82f6"],
+.main-header-bar[style*="rgb(59, 130, 246)"],
+.ast-primary-header-bar[style*="#000"],
+.ast-primary-header-bar[style*="rgb(0, 0, 0)"],
+.ast-primary-header-bar[style*="#3b82f6"],
+.ast_primary_header_bar[style*="rgb(59, 130, 246)"] {
+  color: var(--rise-white);
+}
+.main-header-bar[style*="#000"] .main-header-menu > .menu-item > a,
+.main-header-bar[style*="#3b82f6"] .main-header-menu > .menu-item > a,
+.ast-primary-header-bar[style*="#000"] .main-header-menu > .menu-item > a,
+.ast-primary-header-bar[style*="#3b82f6"] .main-header-menu > .menu-item > a {
+  color: var(--rise-white);
 }

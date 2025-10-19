@@ -1,0 +1,40 @@
+{
+  "name": "astra-rise",
+  "version": "1.0.0",
+  "description": "Modern, modular Astra child theme with Spectra integration",
+  "private": true,
+  "homepage": "https://github.com/jwogrady/astra-rise",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jwogrady/astra-rise.git"
+  },
+  "license": "GPL-2.0-or-later",
+  "author": "jwogrady",
+  "keywords": [
+    "astra",
+    "astra-child",
+    "spectra",
+    "wordpress",
+    "gutenberg",
+    "theme"
+  ],
+  "scripts": {
+    "build": "bun run css:minify && bun run js:minify",
+    "css:minify": "./node_modules/.bin/cssnano assets/css/brand.css assets/css/brand.min.css && ./node_modules/.bin/cssnano assets/css/spectra.css assets/css/spectra.min.css",
+    "js:minify": "./node_modules/.bin/uglifyjs assets/js/smooth-scroll.js -o assets/js/smooth-scroll.min.js -c -m",
+    "watch": "watch 'bun run build' assets/",
+    "lint": "composer run-script lint",
+    "lint:fix": "composer run-script lint:fix",
+    "test": "composer run-script lint"
+  },
+  "devDependencies": {
+    "cssnano": "^6.0.0",
+    "cssnano-cli": "^1.0.5",
+    "uglify-js": "^3.17.0",
+    "watch": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  }
+}
