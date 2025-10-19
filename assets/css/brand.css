@@ -1,0 +1,194 @@
+/**
+ * Rise Local Brand CSS Variables and Styles
+ * Optimized for performance and maintainability
+ */
+
+:root {
+  /* Primary Brand Colors (Black, White, Gray) */
+  --rise-black: #000000;
+  --rise-white: #ffffff;
+  --rise-gray: #696a6d;
+  
+  /* Secondary Brand Color (Light Blue) */
+  --rise-blue: #3d86d5;
+  
+  /* Enhanced UI Colors */
+  --rise-blue-dark: #2c6bb4;
+  --rise-blue-light: #5ea0ea;
+  --rise-background: #f6f7f9;
+  --rise-orange-accent: #f2a74b;
+  
+  /* Typography - Rise Local Brand Specification */
+  --rise-font-headline: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --rise-font-body: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --rise-font-accent: "Permanent Marker", cursive, sans-serif;
+  
+  /* Typography Weights */
+  --rise-weight-thin: 100;
+  --rise-weight-extra-light: 200;
+  --rise-weight-regular: 400;
+  --rise-weight-semi-bold: 600;
+  --rise-weight-extra-bold: 800;
+  
+  /* Typography Scale - Headlines (50pt+) */
+  --rise-text-headline-xl: 4.5rem;    /* ~72pt */
+  --rise-text-headline-lg: 4rem;      /* ~64pt */
+  --rise-text-headline-md: 3.5rem;    /* ~56pt */
+  --rise-text-headline-sm: 3.125rem;  /* ~50pt */
+  
+  /* Typography Scale - Body/Supporting (40pt and below) */
+  --rise-text-body-xl: 2.5rem;        /* ~40pt */
+  --rise-text-body-lg: 1.5rem;        /* ~24pt */
+  --rise-text-body-md: 1.125rem;      /* ~18pt */
+  --rise-text-body-sm: 1rem;          /* ~16pt */
+  --rise-text-body-xs: 0.875rem;      /* ~14pt */
+  
+  /* Line Heights */
+  --rise-leading-tight: 1.1;
+  --rise-leading-normal: 1.3;
+  --rise-leading-relaxed: 1.6;
+  
+  /* Brand Gradients */
+  --rise-gradient-blue: linear-gradient(135deg, #3d86d5 0%, #2c6bb4 100%);
+  --rise-gradient-professional: linear-gradient(135deg, #000000 0%, #696a6d 100%);
+  --rise-gradient-accent: linear-gradient(135deg, #3d86d5 0%, #f2a74b 100%);
+  
+  /* UI Elements */
+  --rise-border-radius: 8px;
+  --rise-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --rise-box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Spacing System */
+  --rise-space-xs: 0.5rem;
+  --rise-space-sm: 1rem;
+  --rise-space-md: 1.5rem;
+  --rise-space-lg: 2rem;
+  --rise-space-xl: 3rem;
+  --rise-space-2xl: 4rem;
+}
+
+/* Typography Implementation - Headlines (50pt+) */
+h1 {
+  font-family: var(--rise-font-headline);
+  font-size: var(--rise-text-headline-xl);
+  font-weight: var(--rise-weight-extra-bold);
+  line-height: var(--rise-leading-tight);
+  color: var(--rise-black);
+  margin-bottom: var(--rise-space-lg);
+}
+
+h2 {
+  font-family: var(--rise-font-headline);
+  font-size: var(--rise-text-headline-lg);
+  font-weight: var(--rise-weight-semi-bold);
+  line-height: var(--rise-leading-tight);
+  color: var(--rise-black);
+  margin-bottom: var(--rise-space-md);
+}
+
+h3 {
+  font-family: var(--rise-font-headline);
+  font-size: var(--rise-text-headline-md);
+  font-weight: var(--rise-weight-regular);
+  line-height: var(--rise-leading-normal);
+  color: var(--rise-black);
+  margin-bottom: var(--rise-space-md);
+}
+
+h4 {
+  font-family: var(--rise-font-headline);
+  font-size: var(--rise-text-headline-sm);
+  font-weight: var(--rise-weight-semi-bold);
+  line-height: var(--rise-leading-normal);
+  color: var(--rise-black);
+  margin-bottom: var(--rise-space-sm);
+}
+
+h5, h6 {
+  font-family: var(--rise-font-headline);
+  font-size: var(--rise-text-body-xl);
+  font-weight: var(--rise-weight-regular);
+  line-height: var(--rise-leading-normal);
+  color: var(--rise-black);
+  margin-bottom: var(--rise-space-sm);
+}
+
+/* Body Typography (40pt and below) */
+body, p, li, span, div {
+  font-family: var(--rise-font-body);
+  font-size: var(--rise-text-body-sm);
+  font-weight: var(--rise-weight-regular);
+  line-height: var(--rise-leading-relaxed);
+  color: var(--rise-black);
+}
+
+/* Large body text */
+.rise-text-large, .has-large-font-size {
+  font-size: var(--rise-text-body-lg);
+  font-weight: var(--rise-weight-extra-light);
+  line-height: var(--rise-leading-normal);
+}
+
+/* Accent/Branding Typography - Permanent Marker */
+.rise-accent-text, .rise-brand-accent {
+  font-family: var(--rise-font-accent);
+  color: var(--rise-blue);
+  font-weight: var(--rise-weight-regular);
+  line-height: var(--rise-leading-normal);
+}
+
+/* Links */
+a {
+  font-family: var(--rise-font-body);
+  color: var(--rise-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--rise-blue-dark);
+}
+
+/* Button Typography */
+.wp-block-button__link, button, input[type="submit"] {
+  font-family: var(--rise-font-headline);
+  font-weight: var(--rise-weight-semi-bold);
+  font-size: var(--rise-text-body-md);
+  border-radius: var(--rise-border-radius);
+  transition: all 0.2s ease;
+}
+
+.wp-block-button__link:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--rise-box-shadow-lg);
+}
+
+/* Rise Local specific styling */
+.rise-local-theme .wp-block-cover {
+  border-radius: var(--rise-border-radius);
+}
+
+.rise-service-card {
+  box-shadow: var(--rise-box-shadow);
+  transition: all 0.3s ease;
+}
+
+.rise-service-card:hover {
+  box-shadow: var(--rise-box-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  h1 { font-size: var(--rise-text-headline-lg); }
+  h2 { font-size: var(--rise-text-headline-md); }
+  h3 { font-size: var(--rise-text-headline-sm); }
+  h4 { font-size: var(--rise-text-body-xl); }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: var(--rise-text-headline-md); }
+  h2 { font-size: var(--rise-text-headline-sm); }
+  h3 { font-size: var(--rise-text-body-xl); }
+  h4 { font-size: var(--rise-text-body-lg); }
+}
