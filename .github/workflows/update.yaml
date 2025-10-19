@@ -15,32 +15,75 @@ concurrency:
   group: release-${{ github.repository }}-${{ github.ref_name }}
   cancel-in-progress: true
 
+env:
+  # Common exclusions for rsync to reduce zip size
+  RSYNC_EXCLUDES: >
+    --exclude='.git/'
+    --exclude='.github/'
+    --exclude='node_modules/'
+    --exclude='bun.lockb'
+    --exclude='*.zip'
+    --exclude='.vscode/'
+    --exclude='.DS_Store'
+    --exclude='*.map'
+    --exclude='PROJECT_REFERENCE/'
+    --exclude='phpcs.xml'
+
 jobs:
   release:
     if: ${{ github.repository == 'jwogrady/astra-rise' }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      zip_path: ${{ steps.zip.outputs.zip }}
+    
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for release notes
 
       - name: Extract version from style.css
         id: version
         run: |
           VERSION=$(grep -m1 '^Version:' style.css | sed -E 's/Version:[[:space:]]*//;s/[[:space:]]*$//')
-          if [ -z "$VERSION" ]; then
-            echo "No Version: found in style.css" >&2
+          
+          # Validate version format (semantic versioning)
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?(\+[a-zA-Z0-9]+)?$ ]]; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Expected format: X.Y.Z (semantic versioning)"
             exit 1
           fi
+          
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "✅ Version extracted: $VERSION"
 
-      - name: Create theme zip
+      - name: Validate version consistency
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          
+          # Check readme.txt
+          if ! grep -q "Stable Tag: $VERSION" readme.txt; then
+            echo "⚠️  Warning: readme.txt Stable Tag does not match style.css Version"
+          fi
+          
+          # Check functions.php for ASTRA_RISE_VERSION
+          if grep -q "ASTRA_RISE_VERSION" functions.php; then
+            if ! grep -q "ASTRA_RISE_VERSION.*$VERSION" functions.php; then
+              echo "⚠️  Warning: functions.php ASTRA_RISE_VERSION does not match"
+            fi
+          fi
+
+      - name: Create theme distribution zip
         id: zip
         run: |
           set -euo pipefail
           VERSION=${{ steps.version.outputs.version }}
           ZIPNAME="astra-rise-${VERSION}.zip"
+          
+          echo "📦 Creating distribution package: $ZIPNAME"
 
           # Stage files under a single top-level directory: astra-rise/
           WORKDIR="$PWD"
@@ -48,21 +91,27 @@ jobs:
           rm -rf "$STAGE_DIR"
           mkdir -p "$STAGE_DIR"
 
-          rsync -a "$WORKDIR"/ "$STAGE_DIR"/ \
-            --exclude='.git/' \
-            --exclude='.github/' \
-            --exclude='node_modules/' \
-            --exclude='*.zip' \
-            --exclude='.vscode/' \
-            --exclude='.DS_Store'
+          # Copy files with exclusions
+          rsync -a "$WORKDIR"/ "$STAGE_DIR"/ $RSYNC_EXCLUDES
+          
+          echo "📋 Distribution contents:"
+          du -sh "$STAGE_DIR"
 
           # Create the zip so it contains astra-rise/ as the root folder
-          (cd "$RUNNER_TEMP" && zip -r "$ZIPNAME" "astra-rise")
+          (cd "$RUNNER_TEMP" && zip -q -r "$ZIPNAME" "astra-rise")
 
           mv "$RUNNER_TEMP/$ZIPNAME" "$WORKDIR/$ZIPNAME"
+          
+          # Verify zip creation and size
+          if [ ! -f "$WORKDIR/$ZIPNAME" ]; then
+            echo "❌ Failed to create zip file"
+            exit 1
+          fi
+          
+          ZIP_SIZE=$(du -h "$WORKDIR/$ZIPNAME" | cut -f1)
+          echo "✅ Zip created: $ZIPNAME (${ZIP_SIZE})"
           echo "zip=$WORKDIR/$ZIPNAME" >> $GITHUB_OUTPUT
 
-      # Compute release metadata once for consistent usage
       - name: Compute release metadata
         id: meta
         env:
@@ -77,19 +126,43 @@ jobs:
             TAG="v${VERSION}"
             VER="$VERSION"
           fi
+          
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "ℹ️  Release tag: $TAG"
+          echo "ℹ️  Release version: $VER"
 
-      # Create or update a GitHub Release and upload assets in one step
-      - name: Publish GitHub release
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
         with:
-          # Use the computed tag and version for consistency
           tag_name: ${{ steps.meta.outputs.tag }}
-          name: astra-rise-${{ steps.meta.outputs.version }}
-          body: Release ${{ steps.meta.outputs.version }}
+          name: astra-rise v${{ steps.meta.outputs.version }}
+          body: |
+            # astra-rise v${{ steps.meta.outputs.version }}
+            
+            **Theme Package** — Production-ready WordPress theme distribution
+            
+            ## What's Included
+            - 10 modular PHP components
+            - 5 custom Spectra block styles
+            - Optimized CSS & JavaScript assets (minified)
+            - 4 registered block patterns
+            
+            ## Installation
+            1. Download `astra-rise-${{ steps.meta.outputs.version }}.zip` below
+            2. Upload to WordPress: Appearance → Themes → Add New → Upload Theme
+            3. Activate and configure in Customizer
+            
+            For detailed setup instructions, see: https://github.com/jwogrady/astra-rise/blob/master/README.md
+            
+            ## System Requirements
+            - WordPress 6.2+
+            - PHP 7.4+
+            - Astra parent theme
+            
+            For more information, visit: [Project Documentation](https://github.com/jwogrady/astra-rise/blob/master/PROJECT_REFERENCE/README.md)
           draft: false
           prerelease: false
           target_commitish: ${{ github.sha }}
