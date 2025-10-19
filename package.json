@@ -1,6 +1,6 @@
 {
   "name": "astra-rise",
-  "version": "1.0.0",
+  "version": "1.1.5",
   "description": "Modern, modular Astra child theme with Spectra integration",
   "private": true,
   "homepage": "https://github.com/jwogrady/astra-rise",
@@ -19,10 +19,10 @@
     "theme"
   ],
   "scripts": {
-    "build": "bun run css:minify && bun run js:minify",
-    "css:minify": "./node_modules/.bin/cssnano assets/css/brand.css assets/css/brand.min.css && ./node_modules/.bin/cssnano assets/css/spectra.css assets/css/spectra.min.css",
-    "js:minify": "./node_modules/.bin/uglifyjs assets/js/smooth-scroll.js -o assets/js/smooth-scroll.min.js -c -m",
-    "watch": "watch 'bun run build' assets/",
+    "build": "npm run css:minify && npm run js:minify",
+    "css:minify": "cssnano assets/css/brand.css assets/css/brand.min.css && cssnano assets/css/spectra.css assets/css/spectra.min.css",
+    "js:minify": "uglifyjs assets/js/smooth-scroll.js -o assets/js/smooth-scroll.min.js -c -m",
+    "watch": "watch 'npm run build' assets/",
     "lint": "composer run-script lint",
     "lint:fix": "composer run-script lint:fix",
     "test": "composer run-script lint"

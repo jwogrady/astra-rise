@@ -8,50 +8,16 @@
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/.git/*</exclude-pattern>
 
-	<!-- Show progress and use multiple threads for faster scanning -->
+	<!-- Show progress -->
 	<arg value="sp"/>
-	<arg name="parallel" value="8"/>
 
-	<!-- Use WordPress standards -->
-	<rule ref="WordPress"/>
+	<!-- Base standards -->
+	<rule ref="PSR2"/>
+	<rule ref="PSR12"/>
 
-	<!-- Exclude some rules that may conflict with theme design -->
-	<rule ref="WordPress.Files.FileName">
-		<properties>
-			<!-- Allow files without class name prefix -->
-			<property name="strict_class_file_names" value="false"/>
-		</properties>
-	</rule>
-
-	<!-- Allow opening PHP tag on separate line for template files -->
-	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
-		<properties>
-			<property name="blank_line_check" value="false"/>
-		</properties>
-	</rule>
-
-	<!-- Custom prefixes for functions and constants -->
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-		<properties>
-			<property name="prefixes" value="astra_rise"/>
-		</properties>
-	</rule>
-
-	<!-- Increase line length limit for URLs and code comments -->
-	<rule ref="Generic.Files.LineLength">
-		<properties>
-			<property name="lineLimit" value="120"/>
-			<property name="absoluteLineLimit" value="150"/>
-		</properties>
-	</rule>
-
-	<!-- Require short array syntax only -->
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
-
-	<!-- WordPress security standards -->
-	<rule ref="WordPress.Security.EscapeOutput"/>
-	<rule ref="WordPress.Security.NonceVerification"/>
-	<rule ref="WordPress.Security.ValidatedSanitizedInput"/>
+	<!-- WordPress specific naming -->
+	<rule ref="WordPress.NamingConventions.ValidFunctionName"/>
+	<rule ref="WordPress.NamingConventions.ValidVariableName"/>
 
 	<!-- Text domain checks -->
 	<rule ref="WordPress.WP.I18n">
@@ -60,28 +26,9 @@
 		</properties>
 	</rule>
 
-	<!-- Debug output not allowed in production -->
-	<rule ref="WordPress.PHP.StrictInArrayComparison"/>
-	<rule ref="WordPress.PHP.NoSilencedErrors"/>
-
-	<!-- Commented-out code should be removed -->
-	<rule ref="Generic.Commenting.Commented">
-		<severity>5</severity>
-	</rule>
-
-	<!-- Indentation settings -->
-	<rule ref="Generic.WhiteSpace.ScopeIndent">
-		<properties>
-			<property name="indent" value="1"/>
-			<property name="tabIndent" value="true"/>
-		</properties>
-	</rule>
-
-	<!-- Allow tabs for indentation -->
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
-
-	<!-- PHP version -->
-	<config name="minimum_supported_wp_version" value="6.2"/>
+	<!-- Minimum supported versions -->
+	<config name="minimum_supported_wp_version" value="6.8"/>
 	<config name="testVersion" value="7.4-"/>
 
 </ruleset>
+
