@@ -68,25 +68,37 @@ add_action( 'init', 'astra_rise_enable_lazy_loading' );
  * Adds responsive image attributes and enforces aspect ratio preservation.
  * Reduces Cumulative Layout Shift (CLS).
  *
- * @param string $attr       The complete img tag attributes.
- * @param object $attachment The attachment object.
- * @return string Modified attributes with width and height hints.
+ * @param array $attr       Array of img tag attributes (key => value).
+ * @param mixed $attachment Attachment object or ID.
+ * @return array Modified attributes with width/height and decoding hints.
  *
  * @since 1.1.0
  */
-function astra_rise_optimize_attachment_attributes( string $attr, object $attachment ): string {
+function astra_rise_optimize_attachment_attributes( array $attr, $attachment ): array {
+	// Resolve attachment ID from object/array/int
+	$attachment_id = null;
+
+	if ( is_object( $attachment ) && isset( $attachment->ID ) ) {
+		$attachment_id = (int) $attachment->ID;
+	} elseif ( is_array( $attachment ) && isset( $attachment['ID'] ) ) {
+		$attachment_id = (int) $attachment['ID'];
+	} elseif ( is_numeric( $attachment ) ) {
+		$attachment_id = (int) $attachment;
+	}
+
 	// Ensure width and height attributes are present for aspect ratio preservation
-	if ( ! str_contains( $attr, 'width=' ) && ! str_contains( $attr, 'height=' ) ) {
-		$meta = wp_get_attachment_metadata( $attachment->ID );
-		
+	if ( empty( $attr['width'] ) && empty( $attr['height'] ) && $attachment_id ) {
+		$meta = wp_get_attachment_metadata( $attachment_id );
+
 		if ( is_array( $meta ) && isset( $meta['width'], $meta['height'] ) ) {
-			$attr .= sprintf( ' width="%d" height="%d"', $meta['width'], $meta['height'] );
+			$attr['width']  = (string) $meta['width'];
+			$attr['height'] = (string) $meta['height'];
 		}
 	}
-	
+
 	// Add decoding="async" for improved rendering performance
-	if ( ! str_contains( $attr, 'decoding=' ) ) {
-		$attr .= ' decoding="async"';
+	if ( empty( $attr['decoding'] ) ) {
+		$attr['decoding'] = 'async';
 	}
 
 	return $attr;
