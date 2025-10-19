@@ -1,1 +1,92 @@
+# Dependencies
+node_modules/
+vendor/
+composer.lock
+package-lock.json
+bun.lockb
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Cache & Temporary
+*.cache
+.cache/
+cache/
+tmp/
+temp/
+
+# Build artifacts
+dist/
+build/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*~
+
+# IDE & Editor
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+*.c9/
+*.swp
+*~
+.wombat/
+.tags
+.tags_sorted_by_file
+
+# Testing
+coverage/
+.coverage
+*.lcov
+phpunit.xml
+phpunit.log
+.phpunit.result.cache
+
+# Development tools
+.phpstan.neon.dist
+.phpstan/
+
+# WordPress specific
+wp-config.php
+wp-content/
+wp-*.php
+wp-cli.local.yml
+
+# Database
+*.sql
+*.sqlite
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# System files
+*.log
+.history
+.vhistory
+*.pid
+*.lock
+core
+
+# macOS
+._*
+
+# Archives
 *.zip
+*.tar.gz
+*.rar

@@ -126,3 +126,67 @@ function astra_rise_get_spectra_version() {
 
 	return false;
 }
+
+/**
+ * Get Theme Performance Metrics
+ *
+ * Returns key performance indicators for the theme.
+ * Useful for monitoring and debugging performance.
+ *
+ * @return array Performance metrics including memory, queries, and cache status.
+ *
+ * @since 1.1.0
+ */
+function astra_rise_get_performance_metrics() {
+	return array(
+		'version'              => ASTRA_RISE_VERSION,
+		'php_version'          => PHP_VERSION,
+		'wp_version'           => get_bloginfo( 'version' ),
+		'memory_usage'         => size_format( memory_get_peak_usage( true ) ),
+		'queries'              => get_num_queries(),
+		'cache_enabled'        => wp_using_ext_object_cache() ? 'enabled' : 'disabled',
+		'litespeed_cache'      => ASTRA_RISE_LITESPEED_CACHE ? 'enabled' : 'disabled',
+		'minified_assets_used' => true,
+		'lazy_loading_enabled' => true,
+		'performance_hints'    => 'enabled',
+	);
+}
+
+/**
+ * Display Performance Debug Info (Admin Only)
+ *
+ * Adds performance metrics to admin footer in development mode.
+ * Only visible to admins with WP_DEBUG enabled.
+ *
+ * @return void
+ *
+ * @since 1.1.0
+ */
+function astra_rise_show_performance_debug() {
+	// Only show to admins in development mode
+	if ( ! current_user_can( 'manage_options' ) || ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		return;
+	}
+
+	$metrics = astra_rise_get_performance_metrics();
+
+	echo '<div style="padding: 10px; background: #f5f5f5; border-top: 1px solid #ddd; font-size: 11px; margin-top: 20px; font-family: monospace;">';
+	echo '<strong>🚀 Astra Rise Performance Metrics:</strong><br>';
+
+	foreach ( $metrics as $key => $value ) {
+		$display_value = is_array( $value ) ? wp_json_encode( $value ) : (string) $value;
+		printf(
+			'<div>%s: <strong>%s</strong></div>',
+			esc_html( str_replace( '_', ' ', ucfirst( $key ) ) ),
+			esc_html( $display_value )
+		);
+	}
+
+	echo '</div>';
+}
+
+// Only show debug in admin
+if ( is_admin() ) {
+	add_action( 'admin_footer', 'astra_rise_show_performance_debug' );
+}
+

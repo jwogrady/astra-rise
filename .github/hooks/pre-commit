@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Pre-commit hook to ensure minified assets exist and are up-to-date
+# Prevents committing out-of-sync source and minified files
+
+set -e
+
+echo "🔍 Checking asset minification..."
+
+MISSING=0
+NEEDS_BUILD=0
+
+# Check if minified CSS files exist
+if [ ! -f "assets/css/brand.min.css" ]; then
+    echo "❌ Missing: assets/css/brand.min.css"
+    MISSING=1
+fi
+
+if [ ! -f "assets/css/spectra.min.css" ]; then
+    echo "❌ Missing: assets/css/spectra.min.css"
+    MISSING=1
+fi
+
+# Check if minified JS files exist
+if [ ! -f "assets/js/smooth-scroll.min.js" ]; then
+    echo "❌ Missing: assets/js/smooth-scroll.min.js"
+    MISSING=1
+fi
+
+# Check if source files are staged but minified files are not
+if git diff --cached --name-only | grep -q "assets/css/brand.css"; then
+    if ! git diff --cached --name-only | grep -q "assets/css/brand.min.css"; then
+        echo "⚠️  Source changed: assets/css/brand.css but assets/css/brand.min.css not updated"
+        NEEDS_BUILD=1
+    fi
+fi
+
+if git diff --cached --name-only | grep -q "assets/js/smooth-scroll.js"; then
+    if ! git diff --cached --name-only | grep -q "assets/js/smooth-scroll.min.js"; then
+        echo "⚠️  Source changed: assets/js/smooth-scroll.js but assets/js/smooth-scroll.min.js not updated"
+        NEEDS_BUILD=1
+    fi
+fi
+
+if [ $MISSING -eq 1 ] || [ $NEEDS_BUILD -eq 1 ]; then
+    echo ""
+    echo "💡 Run the following to rebuild assets:"
+    echo "   npm run build"
+    echo "   git add assets/"
+    echo ""
+    exit 1
+fi
+
+echo "✅ All minified assets present and up-to-date"
+exit 0
