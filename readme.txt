@@ -4,7 +4,7 @@ Tags: astra, astra-child, spectra, local-business, blocks, gutenberg
 Requires at least: 6.8
 Tested up to: 6.8.3
 Requires PHP: 8.0
-Stable Tag: 1.1.3
+Stable Tag: 1.1.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

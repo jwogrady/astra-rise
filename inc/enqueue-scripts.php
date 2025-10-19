@@ -125,12 +125,23 @@ add_action( 'wp_enqueue_scripts', 'astra_rise_enqueue_assets', 15 );
  * Enqueue Block Editor Assets
  *
  * Ensures fonts are available in the Gutenberg editor for visual parity.
+ * Runs only in editor context with valid post object.
  *
  * @return void
  *
  * @since 1.0.0
  */
 function astra_rise_enqueue_editor_assets() {
+	// Only enqueue in editor context with a valid post
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return;
+	}
+
+	$screen = get_current_screen();
+	if ( ! $screen || ! in_array( $screen->base, array( 'post', 'site-editor' ), true ) ) {
+		return;
+	}
+
 	if ( astra_rise_has_local_fonts() ) {
 		wp_enqueue_style(
 			'astra-rise-editor-fonts',

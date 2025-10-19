@@ -108,6 +108,11 @@ add_action( 'enqueue_block_assets', 'astra_rise_register_spectra_block_styles' )
  * @since 1.0.0
  */
 function astra_rise_add_spectra_inline_styles() {
+	// Skip if on admin pages or not in proper context
+	if ( is_admin() ) {
+		return;
+	}
+
 	// This only runs on frontend via wp_enqueue_scripts
 	// Additional safety check to ensure handle is enqueued
 	if ( ! wp_style_is( 'astra-rise-brand', 'enqueued' ) ) {
