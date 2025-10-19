@@ -159,7 +159,7 @@ jobs:
             
             ## System Requirements
             - WordPress 6.2+
-            - PHP 7.4+
+            - PHP 8.0+
             - Astra parent theme
             
             For more information, visit: [Project Documentation](https://github.com/jwogrady/astra-rise/blob/master/PROJECT_REFERENCE/README.md)
