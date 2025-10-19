@@ -25,7 +25,7 @@ function astra_rise_register_patterns() {
     );
 
     foreach ( $patterns as $name => $file ) {
-        $path = RISE_THEME_DIR . '/patterns/' . $file;
+        $path = ASTRA_RISE_DIR . '/patterns/' . $file;
         if ( file_exists( $path ) ) {
             $config = include $path;
             if ( is_array( $config ) ) {
