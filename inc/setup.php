@@ -17,12 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Main Theme Setup Hook
  *
  * Runs during 'after_setup_theme' and initializes all theme features.
+ * Optimized for WordPress 6.8.3 with improved FSE support.
  *
  * @return void
  *
  * @since 1.0.0
  */
-function astra_rise_theme_setup() {
+function astra_rise_theme_setup(): void {
 	// Enable custom logo support with specific dimensions
 	add_theme_support( 'custom-logo', array(
 		'height'      => 100,

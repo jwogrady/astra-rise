@@ -4,6 +4,7 @@
  *
  * Initializes the theme and loads all modular components.
  * This file serves as the entry point for all theme functionality.
+ * Optimized for WordPress 6.8.3, PHP 8.3, and LiteSpeed.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  * @package astra-rise
@@ -20,14 +21,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * These constants are used throughout the theme for versioning,
  * path references, and URI construction.
+ * 
+ * @since 1.0.0
+ * @updated 1.1.0 Updated for WordPress 6.8.3 + PHP 8.3 + LiteSpeed optimization
  */
 $astra_rise_theme = wp_get_theme( get_stylesheet() );
 
 define( 'ASTRA_RISE_VERSION', $astra_rise_theme->get( 'Version' ) ?: '1.0.0' );
-define( 'ASTRA_RISE_MIN_PHP', '7.4' );
-define( 'ASTRA_RISE_MIN_WP', '6.2' );
+define( 'ASTRA_RISE_MIN_PHP', '8.0' );
+define( 'ASTRA_RISE_MIN_WP', '6.8' );
 define( 'ASTRA_RISE_DIR', get_stylesheet_directory() );
 define( 'ASTRA_RISE_URI', get_stylesheet_directory_uri() );
+
+// LiteSpeed Cache optimization flags
+define( 'ASTRA_RISE_LITESPEED_CACHE', defined( 'LSCACHE_VERSION' ) );
+define( 'ASTRA_RISE_PRODUCTION', 'production' === wp_get_environment_type() );
 
 /**
  * Theme Requirements Check
@@ -71,6 +79,7 @@ if ( ! astra_rise_requirements_check() ) {
  */
 require_once ASTRA_RISE_DIR . '/inc/helpers.php';
 require_once ASTRA_RISE_DIR . '/inc/setup.php';
+require_once ASTRA_RISE_DIR . '/inc/performance.php';
 require_once ASTRA_RISE_DIR . '/inc/enqueue-scripts.php';
 require_once ASTRA_RISE_DIR . '/inc/custom-hooks.php';
 require_once ASTRA_RISE_DIR . '/inc/palette.php';

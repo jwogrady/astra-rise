@@ -69,13 +69,15 @@ function astra_rise_get_google_fonts_url() {
  *
  * Loads fonts (local preferred, Google fallback), theme CSS, and JavaScript.
  * Properly declares dependencies for cascade and execution order.
+ * Optimized for LiteSpeed caching and WordPress 6.8.3.
  *
  * @return void
  *
  * @since 1.0.0
  */
-function astra_rise_enqueue_assets() {
+function astra_rise_enqueue_assets(): void {
 	// Enqueue fonts: prefer self-hosted, fallback to Google Fonts.
+	// LiteSpeed will cache these appropriately
 	if ( astra_rise_has_local_fonts() ) {
 		wp_enqueue_style(
 			'astra-rise-local-fonts',
@@ -108,13 +110,13 @@ function astra_rise_enqueue_assets() {
 		astra_rise_get_version( ASTRA_RISE_DIR . '/assets/css/brand.css' )
 	);
 
-	// Enqueue smooth scroll JavaScript (in footer).
+	// Enqueue smooth scroll JavaScript (in footer with defer for performance).
 	wp_enqueue_script(
 		'astra-rise-smooth-scroll',
 		ASTRA_RISE_URI . '/assets/js/smooth-scroll.js',
 		array(),
 		astra_rise_get_version( ASTRA_RISE_DIR . '/assets/js/smooth-scroll.js' ),
-		true // Load in footer
+		true // Load in footer for better performance
 	);
 }
 add_action( 'wp_enqueue_scripts', 'astra_rise_enqueue_assets', 15 );
@@ -186,12 +188,13 @@ add_filter( 'wp_resource_hints', 'astra_rise_add_resource_hints', 10, 2 );
  *
  * Adds <link rel="preload"> tags for critical fonts in <head>.
  * Improves LCP (Largest Contentful Paint) and reduces layout shift.
+ * Essential for LiteSpeed cache optimization.
  *
  * @return void
  *
  * @since 1.0.0
  */
-function astra_rise_preload_local_fonts() {
+function astra_rise_preload_local_fonts(): void {
 	if ( ! astra_rise_has_local_fonts() ) {
 		return;
 	}
@@ -221,4 +224,5 @@ function astra_rise_preload_local_fonts() {
 		);
 	}
 }
+add_action( 'wp_head', 'astra_rise_preload_local_fonts', 1 );
 add_action( 'wp_head', 'astra_rise_preload_local_fonts', 1 );

@@ -1,9 +1,11 @@
 <?php
+declare( strict_types=1 );
 /**
  * Theme Helpers - Utility Functions
  *
  * Common utility functions used throughout the theme.
  * These functions provide consistent patterns for checks, output escaping, and data handling.
+ * Optimized for PHP 8.3 with strict type declarations.
  *
  * @package astra-rise
  * @since 1.0.0
