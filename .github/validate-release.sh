@@ -81,8 +81,8 @@ else
   print_info "Validating requested version: $VERSION"
 fi
 
-# Validate semantic versioning format
-if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?(\+[a-zA-Z0-9]+)?$ ]]; then
+# Validate semantic versioning format (X.Y.Z with optional prerelease/build)
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$ ]]; then
   print_error "Invalid version format: $VERSION"
   print_info "Expected format: X.Y.Z (semantic versioning)"
   exit 1
