@@ -29,6 +29,10 @@ function astra_rise_register_patterns() {
         if ( file_exists( $path ) ) {
             $config = include $path;
             if ( is_array( $config ) ) {
+                // Ensure slug field exists to prevent WordPress 6.0+ notices
+                if ( ! isset( $config['slug'] ) ) {
+                    $config['slug'] = $name;
+                }
                 register_block_pattern( $name, $config );
             }
         }
